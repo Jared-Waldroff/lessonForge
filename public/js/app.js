@@ -128,6 +128,66 @@ const api = {
 };
 
 // ============================================
+// Time Tracking System
+// ============================================
+const TimeTracker = {
+    timer: null,
+    activeLessonId: null,
+    INTERVAL: 30000, // 30 seconds
+
+    /**
+     * Start tracking time for a lesson
+     */
+    start(lessonId) {
+        // Stop any existing timer
+        this.stop();
+
+        console.log(`⏱️ Starting time tracker for lesson ${lessonId}`);
+        this.activeLessonId = lessonId;
+
+        // Initial heartbeat immediately (optional, or wait for interval)
+        // waiting for interval to avoid spamming on quick clicks
+
+        this.timer = setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                this.sendHeartbeat();
+            }
+        }, this.INTERVAL);
+    },
+
+    /**
+     * Stop tracking
+     */
+    stop() {
+        if (this.timer) {
+            console.log('🛑 Stopping time tracker');
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+        this.activeLessonId = null;
+    },
+
+    /**
+     * Send heartbeat to server
+     */
+    async sendHeartbeat() {
+        if (!this.activeLessonId || !state.user) return;
+
+        try {
+            await api.recordProgress({
+                student_id: state.user.id,
+                lesson_id: this.activeLessonId,
+                time_spent_seconds: this.INTERVAL / 1000,
+                // We don't specify block_id so it counts towards general lesson time
+            });
+            console.log(`✅ Recorded ${this.INTERVAL / 1000}s learning time`);
+        } catch (error) {
+            console.warn('Failed to record learning time:', error);
+        }
+    }
+};
+
+// ============================================
 // Application Controller
 // ============================================
 const app = {
@@ -678,9 +738,27 @@ const app = {
             state.currentLesson = result.lesson;
             this.renderLessonContent();
             document.getElementById('lesson-modal').classList.add('active');
+
+            // Start tracking time
+            TimeTracker.start(lessonId);
         } catch (error) {
             // Use demo content
             this.showDemoLesson(lessonId);
+            TimeTracker.start(lessonId); // Track time even for demo lessons
+        }
+    },
+
+    /**
+     * Close lesson modal
+     */
+    closeLessonModal() {
+        document.getElementById('lesson-modal').classList.remove('active');
+        state.currentLesson = null;
+        TimeTracker.stop(); // Stop time tracking
+
+        // Refresh stats to show new time
+        if (state.user) {
+            this.loadStats();
         }
     },
 
