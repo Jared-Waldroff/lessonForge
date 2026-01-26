@@ -221,6 +221,39 @@ const app = {
             document.getElementById('user-initials').textContent =
                 state.user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         }
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if (mobileToggle && sidebar) {
+            console.log('📱 Mobile toggle initialized');
+            mobileToggle.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent bubbling
+                console.log('👆 Toggle clicked');
+                sidebar.classList.toggle('active');
+                console.log('Sidebar active:', sidebar.classList.contains('active'));
+            });
+
+            // Close sidebar when clicking outside (optional but good UX)
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 768 &&
+                    sidebar.classList.contains('active') &&
+                    !sidebar.contains(e.target) &&
+                    !mobileToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            });
+
+            // Close sidebar when clicking a link on mobile
+            document.querySelectorAll('.nav-item').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+        }
     },
 
     /**
@@ -270,6 +303,36 @@ const app = {
         document.getElementById('lesson-filter')?.addEventListener('change', (e) => {
             this.filterLessonsBySubject(e.target.value);
         });
+
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if (mobileToggle && sidebar) {
+            mobileToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebar.classList.toggle('active');
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 768 &&
+                    sidebar.classList.contains('active') &&
+                    !sidebar.contains(e.target) &&
+                    !mobileToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            });
+
+            // Close sidebar when clicking a link
+            document.querySelectorAll('.nav-item').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+        }
     },
 
     /**
