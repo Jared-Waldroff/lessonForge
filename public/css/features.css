@@ -1524,3 +1524,128 @@
     white-space: nowrap;
     text-align: center;
 }
+
+/* ============================================
+   Mobile Responsiveness
+   ============================================ */
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    top: var(--space-4);
+    left: var(--space-4);
+    z-index: 200;
+    background: var(--surface-with-blur);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-2);
+    color: var(--text-primary);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-base);
+}
+
+.mobile-menu-toggle:hover {
+    background: var(--surface-hover);
+}
+
+.mobile-menu-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Tablet & Mobile Breakpoint */
+@media (max-width: 768px) {
+    /* Layout */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--transition-base);
+        width: 100%; /* Full screen menu on mobile */
+        max-width: 300px;
+        box-shadow: var(--shadow-xl);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: var(--space-4);
+        padding-top: var(--space-16); /* Space for toggle button */
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* Grids & Cards */
+    .stats-grid {
+        grid-template-columns: 1fr; /* Stack stats */
+        gap: var(--space-3);
+    }
+    
+    .lessons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Daily Verse Card */
+    .daily-verse-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--space-6);
+    }
+
+    .daily-verse-card::before {
+        width: 150px;
+        height: 150px;
+    }
+
+    .verse-icon {
+        margin-bottom: var(--space-4);
+    }
+
+    /* Analytics Dashboard */
+    .analytics-summary {
+        grid-template-columns: 1fr !important; /* Force stack */
+    }
+
+    .charts-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .chart-container.full-width {
+        grid-column: span 1 !important;
+        overflow-x: auto;
+    }
+    
+    .chart-container canvas {
+        min-width: 300px; /* Ensure charts are readable */
+    }
+
+    .activity-heatmap {
+        gap: 2px;
+    }
+
+    /* Header Actions */
+    .view-header {
+        flex-direction: column;
+        gap: var(--space-4);
+        align-items: flex-start;
+    }
+    
+    .view-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+}
