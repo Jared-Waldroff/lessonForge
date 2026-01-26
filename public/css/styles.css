@@ -1624,18 +1624,33 @@ body {
         --sidebar-width: 0px;
     }
 
+    /* Fixed Sidebar for Mobile */
     .sidebar {
         transform: translateX(-100%);
         transition: transform var(--transition-base);
+        width: 100%;
+        max-width: 280px;
+        box-shadow: var(--shadow-xl);
+        background: var(--bg-secondary);
+        z-index: 1000;
+        visibility: hidden;
+        /* Hide completely when closed */
     }
 
-    .sidebar.open {
+    .sidebar.active {
         transform: translateX(0);
+        visibility: visible;
     }
 
     .main-content {
         margin-left: 0;
         padding: var(--space-4);
+        padding-top: var(--space-16);
+        /* Space for toggle button */
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
     }
 
     .view-header {
@@ -1646,6 +1661,7 @@ body {
     .view-actions {
         flex-direction: column;
         width: 100%;
+        align-items: stretch;
     }
 
     .search-box {
@@ -1657,7 +1673,8 @@ body {
     }
 
     .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
     }
 
     .lessons-grid {
@@ -1671,18 +1688,34 @@ body {
     .daily-verse-card {
         flex-direction: column;
         text-align: center;
+        padding: var(--space-6);
+        align-items: center;
     }
 
-    .verse-card-large blockquote {
-        font-size: 1.25rem;
+    .daily-verse-card::before {
+        width: 150px;
+        height: 150px;
+    }
+
+    .verse-icon {
+        margin-bottom: var(--space-4);
+    }
+
+    /* Analytics Stack */
+    .analytics-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-container.full-width {
+        overflow-x: auto;
     }
 }
 
 @media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
     .block-actions {
         flex-wrap: wrap;
     }
