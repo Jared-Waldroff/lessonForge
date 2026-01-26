@@ -401,10 +401,64 @@ const Analytics = {
         let html = '';
         for (let i = 0; i < activity.length; i++) {
             const level = maxActivity > 0 ? Math.ceil((activity[i] / maxActivity) * 3) : 0;
-            html += `<div class="heatmap-day level-${level}" title="Day ${i + 1}: ${activity[i]} activities"></div>`;
+            const day = i + 1;
+            const count = activity[i];
+            html += `<div class="heatmap-day level-${level}" 
+                          data-day="Day ${day}" 
+                          data-count="${count} activities"></div>`;
         }
 
         container.innerHTML = html;
+
+        // Add event listeners for custom tooltip
+        this.setupHeatmapTooltips(container);
+    },
+
+    /**
+     * Setup tooltip interactivity
+     */
+    setupHeatmapTooltips(container) {
+        // Create tooltip element if not exists
+        let tooltip = document.getElementById('analytics-tooltip');
+        if (!tooltip) {
+            tooltip = document.createElement('div');
+            tooltip.id = 'analytics-tooltip';
+            tooltip.className = 'analytics-tooltip';
+            document.body.appendChild(tooltip);
+        }
+
+        // Mouse over
+        container.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('heatmap-day')) {
+                const day = e.target.getAttribute('data-day');
+                const count = e.target.getAttribute('data-count');
+
+                tooltip.innerHTML = `<strong>${day}</strong><br>${count}`;
+                tooltip.style.opacity = '1';
+                tooltip.style.visibility = 'visible';
+            }
+        });
+
+        // Mouse move (follow cursor)
+        container.addEventListener('mousemove', (e) => {
+            if (e.target.classList.contains('heatmap-day')) {
+                // Position above cursor
+                const x = e.pageX;
+                const y = e.pageY - 10;
+
+                tooltip.style.left = `${x}px`;
+                tooltip.style.top = `${y}px`;
+                tooltip.style.transform = 'translate(-50%, -100%)';
+            }
+        });
+
+        // Mouse leave
+        container.addEventListener('mouseout', (e) => {
+            if (e.target.classList.contains('heatmap-day')) {
+                tooltip.style.opacity = '0';
+                tooltip.style.visibility = 'hidden';
+            }
+        });
     },
 
     /**
