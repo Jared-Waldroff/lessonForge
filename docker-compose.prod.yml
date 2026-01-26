@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    ports:
+      - "80:80"  # Expose on standard HTTP port
+    restart: always # Auto-restart if crashes or server reboots
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    volumes:
+      # In production, we typically don't mount the code to allow hot-reloading.
+      # But for simplicity in this demo, we'll keep the bind mount or 
+      # rely on the COPY in Dockerfile if we removed the volume.
+      - .:/var/www/html
+
+  db:
+    restart: always
+
+  redis:
+    restart: always

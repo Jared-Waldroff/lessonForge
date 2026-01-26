@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="HCOS LessonForge - Interactive Lesson Builder & Progress Tracker for Heritage Christian Online School">
+    <title>HCOS LessonForge | Interactive Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/features.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-icon"></div>
+            <p>Preparing your learning journey...</p>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>HCOS LessonForge</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-view="lessons">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                    <span>My Lessons</span>
+                </a>
+                <a href="#" class="nav-item" data-view="builder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    <span>Lesson Builder</span>
+                </a>
+                <a href="#" class="nav-item" data-view="flashcards">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="M12 8v4" />
+                        <circle cx="12" cy="14" r="1" />
+                    </svg>
+                    <span>Flashcards</span>
+                </a>
+                <a href="#" class="nav-item" data-view="analytics">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10" />
+                        <line x1="12" y1="20" x2="12" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="14" />
+                    </svg>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item" data-view="achievements">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="6" />
+                        <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                    </svg>
+                    <span>Achievements</span>
+                </a>
+                <a href="#" class="nav-item" data-view="verses">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>Daily Verse</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info" id="user-info">
+                    <div class="user-avatar">
+                        <span id="user-initials">GU</span>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="user-name">Guest User</span>
+                        <span class="user-role" id="user-role">Student</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logout-btn" title="Log Out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <section id="view-dashboard" class="view active">
+                <header class="view-header">
+                    <div>
+                        <h1>Welcome Back</h1>
+                        <p class="subtitle" id="greeting">Ready to continue your learning journey?</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="app.showView('builder')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Create Lesson
+                    </button>
+                </header>
+
+                <!-- Daily Verse Card -->
+                <div class="daily-verse-card" id="daily-verse-card">
+                    <div class="verse-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <div class="verse-content">
+                        <blockquote id="verse-text">"The fear of the Lord is the beginning of wisdom..."</blockquote>
+                        <cite id="verse-reference">— Proverbs 9:10</cite>
+                    </div>
+                    <div class="verse-theme" id="verse-theme">Wisdom</div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon lessons">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-lessons">0</span>
+                            <span class="stat-label">Lessons Started</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon completed">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 11 12 14 22 4" />
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-completed">0</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon score">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-score">—</span>
+                            <span class="stat-label">Avg. Score</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon time">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="stat-time">0m</span>
+                            <span class="stat-label">Time Learning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Lessons -->
+                <section class="recent-section">
+                    <h2>Continue Learning</h2>
+                    <div class="lessons-grid" id="recent-lessons">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+            </section>
+
+            <!-- Lessons List View -->
+            <section id="view-lessons" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>My Lessons</h1>
+                        <p class="subtitle">Browse and take interactive lessons</p>
+                    </div>
+                    <div class="view-actions">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.35-4.35" />
+                            </svg>
+                            <input type="text" placeholder="Search lessons..." id="lesson-search">
+                        </div>
+                        <select id="lesson-filter" class="filter-select">
+                            <option value="all">All Subjects</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Science">Science</option>
+                            <option value="English Language Arts">English Language Arts</option>
+                        </select>
+                    </div>
+                </header>
+                <div class="lessons-grid" id="all-lessons">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Lesson Builder View -->
+            <section id="view-builder" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>Lesson Builder</h1>
+                        <p class="subtitle">Create engaging interactive lessons</p>
+                    </div>
+                </header>
+
+                <div class="builder-container">
+                    <!-- Lesson Info Form -->
+                    <div class="builder-panel lesson-info">
+                        <h3>Lesson Details</h3>
+                        <form id="lesson-form">
+                            <div class="form-group">
+                                <label for="lesson-title">Title</label>
+                                <input type="text" id="lesson-title" placeholder="Enter lesson title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lesson-description">Description</label>
+                                <textarea id="lesson-description" placeholder="What will students learn?"
+                                    rows="3"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lesson-subject">Subject</label>
+                                    <select id="lesson-subject">
+                                        <option value="">Select subject</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Science">Science</option>
+                                        <option value="English Language Arts">English Language Arts</option>
+                                        <option value="History">History</option>
+                                        <option value="Bible Studies">Bible Studies</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lesson-grade">Grade Level</label>
+                                    <select id="lesson-grade">
+                                        <option value="">Select grade</option>
+                                        <option value="K-1">Kindergarten - 1st</option>
+                                        <option value="Grade 2-3">Grade 2-3</option>
+                                        <option value="Grade 4-5">Grade 4-5</option>
+                                        <option value="Grade 6-8">Grade 6-8</option>
+                                        <option value="Grade 9-12">Grade 9-12</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Block Editor -->
+                    <div class="builder-panel blocks-editor">
+                        <div class="blocks-header">
+                            <h3>Content Blocks</h3>
+                            <div class="block-actions">
+                                <button class="btn btn-sm" onclick="app.addBlock('text')" title="Add Text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <line x1="16" y1="13" x2="8" y2="13" />
+                                        <line x1="16" y1="17" x2="8" y2="17" />
+                                        <polyline points="10 9 9 9 8 9" />
+                                    </svg>
+                                    Text
+                                </button>
+                                <button class="btn btn-sm" onclick="app.addBlock('quiz')" title="Add Quiz">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                    Quiz
+                                </button>
+                                <button class="btn btn-sm" onclick="app.addBlock('video')" title="Add Video">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="23 7 16 12 23 17 23 7" />
+                                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                                    </svg>
+                                    Video
+                                </button>
+                                <button class="btn btn-sm btn-accent" onclick="app.addBlock('scripture')"
+                                    title="Add Scripture">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    Scripture
+                                </button>
+                            </div>
+                        </div>
+                        <div class="blocks-list" id="blocks-list">
+                            <div class="empty-state">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="12" y1="8" x2="12" y2="16" />
+                                    <line x1="8" y1="12" x2="16" y2="12" />
+                                </svg>
+                                <p>Add blocks to build your lesson</p>
+                                <span>Click the buttons above to add content</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="builder-actions">
+                        <button class="btn btn-secondary" onclick="app.clearBuilder()">Clear</button>
+                        <button class="btn btn-secondary" onclick="app.saveLesson(false)">Save Draft</button>
+                        <button class="btn btn-primary" onclick="app.saveLesson(true)">Publish Lesson</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress View -->
+            <section id="view-progress" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>Learning Progress</h1>
+                        <p class="subtitle">Track your educational journey</p>
+                    </div>
+                </header>
+
+                <div class="progress-overview">
+                    <div class="progress-chart">
+                        <div class="chart-circle" id="overall-progress">
+                            <svg viewBox="0 0 36 36">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle-progress" stroke-dasharray="0, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <div class="chart-center">
+                                <span class="chart-value" id="progress-percent">0%</span>
+                                <span class="chart-label">Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-lessons" id="progress-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Verse View -->
+            <section id="view-verses" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>Daily Scripture</h1>
+                        <p class="subtitle">Let wisdom guide your learning</p>
+                    </div>
+                </header>
+
+                <div class="verse-display-large">
+                    <div class="verse-card-large">
+                        <div class="verse-decoration">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                        </div>
+                        <blockquote id="verse-text-large">"Let the wise listen and add to their learning, and let the
+                            discerning get guidance."</blockquote>
+                        <cite id="verse-reference-large">— Proverbs 1:5</cite>
+                        <div class="verse-theme-large" id="verse-theme-large">Theme: Learning</div>
+                    </div>
+                </div>
+
+                <div class="verse-themes">
+                    <h3>Browse by Theme</h3>
+                    <div class="theme-tags" id="theme-tags">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Flashcards View -->
+            <section id="view-flashcards" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>Memory Verses</h1>
+                        <p class="subtitle">Master scripture through spaced repetition</p>
+                    </div>
+                </header>
+                <div id="flashcards-content">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="view-analytics" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>Learning Analytics</h1>
+                        <p class="subtitle">Track your educational journey with data</p>
+                    </div>
+                </header>
+                <div id="analytics-content">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Achievements View -->
+            <section id="view-achievements" class="view">
+                <header class="view-header">
+                    <div>
+                        <h1>Achievements</h1>
+                        <p class="subtitle">Earn badges and track your milestones</p>
+                    </div>
+                    <div class="xp-display" id="xp-display">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </header>
+                <div id="achievements-content">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content auth-modal">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <h2>Welcome to HCOS LessonForge</h2>
+                <p>Interactive Learning for Christian Education</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Sign In</button>
+                <button class="auth-tab" data-tab="register">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                <p class="auth-demo">
+                    <strong>Demo:</strong> teacher@hcos.demo / password123
+                </p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password (8+ characters)"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="register-role">I am a...</label>
+                    <select id="register-role">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lesson Modal (for taking lessons) -->
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content lesson-modal">
+            <button class="modal-close" onclick="app.closeLessonModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <div class="lesson-content" id="lesson-content">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/gamification.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/flashcards.js"></script>
+    <script src="js/dragdrop.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

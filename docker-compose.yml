@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # PHP 8.2 with Apache
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hcos-lessonforge-app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DB_HOST=db
+      - DB_NAME=hcos_lessonforge
+      - DB_USER=hcos
+      - DB_PASS=hcos_secret_2026
+      - REDIS_HOST=redis
+    networks:
+      - hcos-network
+
+  # MariaDB 10.11
+  db:
+    image: mariadb:10.11
+    container_name: hcos-lessonforge-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: hcos_root_2026
+      MYSQL_DATABASE: hcos_lessonforge
+      MYSQL_USER: hcos
+      MYSQL_PASSWORD: hcos_secret_2026
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - hcos-network
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: hcos-lessonforge-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - hcos-network
+
+networks:
+  hcos-network:
+    driver: bridge
+
+volumes:
+  db_data:

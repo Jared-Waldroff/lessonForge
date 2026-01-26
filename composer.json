@@ -1,0 +1,27 @@
+{
+    "name": "lessonforge/app",
+    "description": "Interactive Lesson Builder & Progress Tracker for Online Education",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "ext-pdo": "*",
+        "ext-redis": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LessonForge\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LessonForge\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit tests/"
+    }
+}
