@@ -1619,6 +1619,38 @@ body {
     }
 }
 
+/* Mobile Menu Toggle Button (Base Styles) */
+.mobile-menu-toggle {
+    display: none;
+    /* Hidden on desktop */
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2000;
+    /* Above sidebar (1000) */
+    background: rgba(26, 21, 18, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-base);
+}
+
+.mobile-menu-toggle:hover {
+    background: var(--surface-hover);
+}
+
+.mobile-menu-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
 @media (max-width: 768px) {
     :root {
         --sidebar-width: 0px;
@@ -1650,7 +1682,14 @@ body {
     }
 
     .mobile-menu-toggle {
-        display: flex;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        background: var(--primary-600);
+        /* High contrast background */
+        color: white;
+        /* High contrast icon */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .view-header {
