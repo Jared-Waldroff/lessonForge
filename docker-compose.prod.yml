@@ -8,6 +8,8 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
+      - JWT_SECRET=${JWT_SECRET}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
     volumes:
       # In production, we typically don't mount the code to allow hot-reloading.
       # But for simplicity in this demo, we'll keep the bind mount or 

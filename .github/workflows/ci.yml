@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: hcos_lessonforge_test
+          MYSQL_USER: hcos
+          MYSQL_PASSWORD: hcos_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, redis, mbstring, bcmath
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Initialize test database
+        run: mysql -h 127.0.0.1 -u hcos -phcos_test hcos_lessonforge_test < database/schema.sql
+
+      - name: Run unit tests
+        run: vendor/bin/phpunit --testsuite Unit
+
+      - name: Run integration tests
+        env:
+          DB_HOST: 127.0.0.1
+          DB_NAME: hcos_lessonforge_test
+          DB_USER: hcos
+          DB_PASS: hcos_test
+          REDIS_HOST: 127.0.0.1
+          JWT_SECRET: ci-test-secret
+        run: vendor/bin/phpunit --testsuite Integration

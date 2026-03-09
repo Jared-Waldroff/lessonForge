@@ -1,10 +1,10 @@
 <?php
 /**
  * Simple Router for REST API
- * 
+ *
  * Handles HTTP requests and routes them to appropriate controllers.
- * Supports GET, POST, PUT, DELETE methods.
- * 
+ * Supports GET, POST, PUT, DELETE methods with per-route middleware.
+ *
  * @package LessonForge
  */
 
@@ -13,48 +13,48 @@ namespace LessonForge;
 class Router
 {
     private array $routes = [];
-    private array $middleware = [];
+    private array $globalMiddleware = [];
 
     /**
      * Register a GET route
      */
-    public function get(string $path, callable|array $handler): self
+    public function get(string $path, callable|array $handler, array $middleware = []): self
     {
-        $this->addRoute('GET', $path, $handler);
+        $this->addRoute('GET', $path, $handler, $middleware);
         return $this;
     }
 
     /**
      * Register a POST route
      */
-    public function post(string $path, callable|array $handler): self
+    public function post(string $path, callable|array $handler, array $middleware = []): self
     {
-        $this->addRoute('POST', $path, $handler);
+        $this->addRoute('POST', $path, $handler, $middleware);
         return $this;
     }
 
     /**
      * Register a PUT route
      */
-    public function put(string $path, callable|array $handler): self
+    public function put(string $path, callable|array $handler, array $middleware = []): self
     {
-        $this->addRoute('PUT', $path, $handler);
+        $this->addRoute('PUT', $path, $handler, $middleware);
         return $this;
     }
 
     /**
      * Register a DELETE route
      */
-    public function delete(string $path, callable|array $handler): self
+    public function delete(string $path, callable|array $handler, array $middleware = []): self
     {
-        $this->addRoute('DELETE', $path, $handler);
+        $this->addRoute('DELETE', $path, $handler, $middleware);
         return $this;
     }
 
     /**
      * Add a route to the routes array
      */
-    private function addRoute(string $method, string $path, callable|array $handler): void
+    private function addRoute(string $method, string $path, callable|array $handler, array $middleware = []): void
     {
         // Convert path parameters to regex pattern
         $pattern = preg_replace('/\{([a-zA-Z]+)\}/', '(?P<$1>[^/]+)', $path);
@@ -64,16 +64,17 @@ class Router
             'method' => $method,
             'path' => $path,
             'pattern' => $pattern,
-            'handler' => $handler
+            'handler' => $handler,
+            'middleware' => $middleware
         ];
     }
 
     /**
-     * Add middleware to run before routes
+     * Add global middleware to run before all routes
      */
     public function addMiddleware(callable $middleware): self
     {
-        $this->middleware[] = $middleware;
+        $this->globalMiddleware[] = $middleware;
         return $this;
     }
 
@@ -98,8 +99,8 @@ class Router
             exit;
         }
 
-        // Run middleware
-        foreach ($this->middleware as $middleware) {
+        // Run global middleware
+        foreach ($this->globalMiddleware as $middleware) {
             $result = $middleware();
             if ($result === false) {
                 return;
@@ -120,6 +121,11 @@ class Router
                 header('Content-Type: application/json');
 
                 try {
+                    // Run per-route middleware
+                    foreach ($route['middleware'] as $middleware) {
+                        $middleware();
+                    }
+
                     $handler = $route['handler'];
 
                     error_log("Dispatching to handler for " . $uri);
@@ -161,11 +167,23 @@ class Router
     }
 
     /**
-     * Send CORS headers for cross-origin requests
+     * Send CORS headers with environment-based origin whitelist
      */
     private function sendCorsHeaders(): void
     {
-        header('Access-Control-Allow-Origin: *');
+        $allowedOrigins = getenv('ALLOWED_ORIGINS') ?: '*';
+        $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+        if ($allowedOrigins === '*') {
+            header('Access-Control-Allow-Origin: *');
+        } else {
+            $origins = array_map('trim', explode(',', $allowedOrigins));
+            if (in_array($origin, $origins)) {
+                header('Access-Control-Allow-Origin: ' . $origin);
+                header('Vary: Origin');
+            }
+        }
+
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: Content-Type, Authorization');
     }
