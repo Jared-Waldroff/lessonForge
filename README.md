@@ -149,7 +149,11 @@ lessonforge/
 │       ├── DatabaseTestCase.php        # Base class with transactions
 │       ├── UserIntegrationTest.php     # User DB operations
 │       ├── LessonIntegrationTest.php   # Lesson + block DB operations
-│       └── AuthMiddlewareTest.php      # JWT creation & validation
+│       ├── AuthMiddlewareTest.php      # JWT creation & validation
+│       ├── RBACTest.php                # Role-based access control
+│       ├── RateLimitTest.php           # Redis rate limiting
+│       ├── ProgressIntegrationTest.php # Student progress workflow
+│       └── SecurityTest.php            # SQL injection, XSS, cascades
 ├── deployment/                 # Deployment scripts
 │   ├── vps-setup.sh            # Ubuntu VPS Docker setup
 │   └── deploy.sh               # Production deployment

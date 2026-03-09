@@ -67,12 +67,13 @@ class SecurityTest extends DatabaseTestCase
         $stmt->execute([$lessonId]);
         $row = $stmt->fetch();
 
-        // Stored as-is (JSON encoding will escape on output)
+        // Stored as-is in DB (not executed)
         $this->assertEquals($xssTitle, $row['title']);
 
-        // json_encode escapes HTML entities
+        // json_encode escapes forward slashes, breaking </script> tags
         $json = json_encode(['title' => $row['title']]);
-        $this->assertStringNotContainsString('<script>', $json);
+        $this->assertStringNotContainsString('</script>', $json);
+        $this->assertStringContainsString('<\/script>', $json);
     }
 
     /**
