@@ -53,6 +53,13 @@ jobs:
         run: mysql -h 127.0.0.1 -u hcos -phcos_test hcos_lessonforge_test < database/schema.sql
 
       - name: Run unit tests
+        env:
+          DB_HOST: 127.0.0.1
+          DB_NAME: hcos_lessonforge_test
+          DB_USER: hcos
+          DB_PASS: hcos_test
+          REDIS_HOST: 127.0.0.1
+          JWT_SECRET: ci-test-secret
         run: vendor/bin/phpunit --testsuite Unit
 
       - name: Run integration tests
