@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -71,3 +71,23 @@ jobs:
           REDIS_HOST: 127.0.0.1
           JWT_SECRET: ci-test-secret
         run: vendor/bin/phpunit --testsuite Integration
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: root
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            cd /var/www/lessonforge
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
+            docker-compose exec -T app composer install --no-dev --optimize-autoloader
+            echo "Deployed successfully at $(date)"
