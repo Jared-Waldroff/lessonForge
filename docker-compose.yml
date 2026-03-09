@@ -20,6 +20,8 @@ services:
       - DB_USER=hcos
       - DB_PASS=hcos_secret_2026
       - REDIS_HOST=redis
+      - JWT_SECRET=lessonforge-dev-secret-2026
+      - ALLOWED_ORIGINS=http://localhost:8080
     networks:
       - hcos-network
 

@@ -160,4 +160,21 @@ CREATE TABLE IF NOT EXISTS `verse_progress` (
     INDEX `idx_next_review` (`next_review`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ============================================
+-- AUTHENTICATION TABLES
+-- ============================================
+
+-- JWT token tracking for revocation
+CREATE TABLE IF NOT EXISTS `auth_tokens` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT UNSIGNED NOT NULL,
+    `token_hash` VARCHAR(64) NOT NULL,
+    `expires_at` TIMESTAMP NOT NULL,
+    `revoked` BOOLEAN DEFAULT FALSE,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+    INDEX `idx_token_hash` (`token_hash`),
+    INDEX `idx_expires` (`expires_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;

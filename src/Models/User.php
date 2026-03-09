@@ -11,6 +11,7 @@
 namespace LessonForge\Models;
 
 use LessonForge\Database;
+use LessonForge\Middleware\AuthMiddleware;
 
 class User
 {
@@ -155,8 +156,12 @@ class User
             return ['success' => false, 'error' => 'Invalid credentials'];
         }
 
-        // Generate a simple token (in production, use JWT)
-        $token = bin2hex(random_bytes(32));
+        // Generate JWT token with user claims
+        $token = AuthMiddleware::createToken(
+            (int) $userData['id'],
+            $userData['email'],
+            $userData['role']
+        );
 
         return [
             'success' => true,
