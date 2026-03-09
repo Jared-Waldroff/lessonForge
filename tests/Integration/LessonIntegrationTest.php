@@ -88,7 +88,7 @@ class LessonIntegrationTest extends DatabaseTestCase
         $lessonId = $this->insertLesson($teacherId);
 
         $stmt = $this->pdo->prepare("UPDATE lessons SET is_published = ? WHERE id = ?");
-        $stmt->execute([false, $lessonId]);
+        $stmt->execute([0, $lessonId]);
 
         $stmt = $this->pdo->prepare("SELECT is_published FROM lessons WHERE id = ?");
         $stmt->execute([$lessonId]);
