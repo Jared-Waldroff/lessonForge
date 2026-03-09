@@ -22,6 +22,14 @@
             "LessonForge\\Tests\\": "tests/"
         }
     },
+    "config": {
+        "audit": {
+            "abandoned": "report",
+            "ignore": {
+                "PKSA-y2cr-5h3j-g3ys": "HS256 symmetric signing only — not affected by asymmetric key confusion"
+            }
+        }
+    },
     "scripts": {
         "test": "phpunit tests/"
     }
